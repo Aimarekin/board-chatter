@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="https://p.trellocdn.com/power-up.min.css">
+    <script src="https://p.trellocdn.com/power-up.min.js"></script>
+  </head>
+  <body>
+    <div id="content">
+      <h3>Chat permissions</h3>
+      <p>Who can read messages?</p>
+      <select id="see-chat">
+        <option value="date">Administrators</option>
+        <option value="lemon">Members</option>
+        <option value="pineapple">Everyone</option>
+      </select>
+      <p>Who can send messages?</p>
+      <select id="send-chat">
+        <option value="date">Administrators</option>
+        <option value="lemon">Members</option>
+        <option value="pineapple">Everyone</option>
+      </select>
+      <p>Who can moderate messages?</p>
+      <select id="mod-chat">
+        <option value="date">Administrators</option>
+        <option value="lemon">Members</option>
+      </select>
+      <br>
+      <button id="save" class="mod-primary">Save</button>
+      <hr>
+      <h3>Delete entire message history</h3>
+      <p>A bomb will massively destroy all messages ever shared in the chat. *Gulp!*</p>
+      <button id="delete" class="mod-danger">Delete EVERYTHING!</button>
+      <br>
+    </div>
+    <script src="./js/settings.js"></script>
+  </body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "Board Chatter",
+  "description": "",
+  "details": "Add the Weekly Reports button to your Trello board.",
+  "icon": {
+    "url": "./g-dot.svg"
+  },
+  "author": "Aimarekin",
+  "capabilities": [
+    "board-buttons",
+    "callback"
+  ],
+  "connectors": {
+    "iframe": {
+      "url": "./index.html"
+    }
+  },
+  "recommend": {
+    "urls": []
+  }
+}
