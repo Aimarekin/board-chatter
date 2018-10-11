@@ -15,6 +15,27 @@
         <form action="./settings.html">
           <button id="delete" class="mod-danger">DELETE</button>
         </form>
+        <style>
+          img {
+            animation: shake 0.5s;
+            animation-iteration-count: infinite;
+          }
+
+          @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+          }
+        </style>
+        <img src= "https://cdn.glitch.com/8ceca49b-97de-410c-808e-925a5b513af5%2F26a0%5B1%5D.png?1539280969245" height="100" width="100">
       </div>
     </div>
     <script src="./js/settings.js"></script>

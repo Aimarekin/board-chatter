@@ -88,10 +88,10 @@ var boardButtonCallback = function(t){
       {
         text: 'Open Modal',
         callback: function(t){
-          return t.modal({            
+          return t.modal({
             url: './modal.html', // The URL to load for the iframe
             args: { text: 'Hello' }, // Optional args to access later with t.arg('text') on './modal.html'
-            accentColor: '#F2D600', // Optional color for the modal header 
+            accentColor: '#F2D600', // Optional color for the modal header
             height: 500, // Initial height for iframe; not used if fullscreen is true
             fullscreen: true, // Whether the modal should stretch to take up the whole screen
             callback: () => console.log('Goodbye.'), // optional function called if user closes modal (via `X` or escape)
@@ -173,7 +173,7 @@ var cardButtonCallback = function(t){
       empty: 'No parks found'
     }
   });
-  
+
   // in the above case we let Trello do the searching client side
   // but what if we don't have all the information up front?
   // no worries, instead of giving Trello an array of `items` you can give it a function instead
@@ -235,28 +235,6 @@ TrelloPowerUp.initialize({
       return [];
     }
   },
-  'attachment-thumbnail': function(t, options){
-    // options.url has the url of the attachment for us
-    // return an object (or a Promise that resolves to it) with some or all of these properties:
-    // url, title, image, modified (Date), created (Date), createdBy, modifiedBy
-    
-    // You should use this if you have useful information about an attached URL but it
-    // doesn't warrant pulling it out into a section via the attachment-sections capability
-    // for example if you just want to show a preview image and give it a better name
-    // then attachment-thumbnail is the best option
-    return {
-      url: options.url,
-      title: '👉 ' + options.url + ' 👈',
-      image: {
-        url: GLITCH_ICON,
-        logo: true // false if you are using a thumbnail of the content
-      },
-    };
-    
-    // if we don't actually have any valuable information about the url
-    // we can let Trello know like so:
-    // throw t.NotHandled();
-  },
   'board-buttons': function(t, options){
     return [{
       // we can either provide a button that has a callback function
@@ -276,58 +254,6 @@ TrelloPowerUp.initialize({
       height: 184 // we can always resize later, but if we know the size in advance, its good to tell Trello
     });
   },
-  
-  /*        
-      
-      🔑 Authorization Capabiltiies 🗝
-      
-      The following two capabilities should be used together to determine:
-      1. whether a user is appropriately authorized
-      2. what to do when a user isn't completely authorized
-      
-  */
-  'authorization-status': function(t, options){
-    // Return a promise that resolves to an object with a boolean property 'authorized' of true or false
-    // The boolean value determines whether your Power-Up considers the user to be authorized or not.
-    
-    // When the value is false, Trello will show the user an "Authorize Account" options when
-    // they click on the Power-Up's gear icon in the settings. The 'show-authorization' capability
-    // below determines what should happen when the user clicks "Authorize Account"
-    
-    // For instance, if your Power-Up requires a token to be set for the member you could do the following:
-    return t.get('member', 'private', 'token')
-    // Or if you needed to set/get a non-Trello secret token, like an oauth token, you could
-    // use t.storeSecret('key', 'value') and t.loadSecret('key')
-    .then(function(token){
-      if(token){
-        return { authorized: true };
-      }
-      return { authorized: false };
-    });
-    // You can also return the object synchronously if you know the answer synchronously.
-  },
-  'show-authorization': function(t, options){
-    // Returns what to do when a user clicks the 'Authorize Account' link from the Power-Up gear icon
-    // which shows when 'authorization-status' returns { authorized: false }.
-    
-    // If we want to ask the user to authorize our Power-Up to make full use of the Trello API
-    // you'll need to add your API from trello.com/app-key below:
-    let trelloAPIKey = '';
-    // This key will be used to generate a token that you can pass along with the API key to Trello's
-    // RESTful API. Using the key/token pair, you can make requests on behalf of the authorized user.
-    
-    // In this case we'll open a popup to kick off the authorization flow.
-    if (trelloAPIKey) {
-      return t.popup({
-        title: 'My Auth Popup',
-        args: { apiKey: trelloAPIKey }, // Pass in API key to the iframe
-        url: './authorize.html', // Check out public/authorize.html to see how to ask a user to auth
-        height: 140,
-      });
-    } else {
-      console.log("🙈 Looks like you need to add your API key to the project!");
-    }
-  }
 });
 
 console.log('Loaded by: ' + document.referrer);
