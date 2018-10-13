@@ -1,16 +1,16 @@
 {
   "name": "Board Chatter",
   "version": "0.0.1",
-  "description": "A Trello Power-Up that enables a chat inside your very board.",
+  "description": "A Trello Power-Up that enables a Chat inside your very board, letting you talk with your mates.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "repository": "https://github.com/trello/glitch-trello-power-up",
+  "repository": "https://github.com/Aimarekin/board-chatter",
   "dependencies": {
-    "compression": "^1.7.1",
+    "compression": "^1.7.3",
     "cors": "^2.8.4",
-    "express": "^4.16.2",
+    "express": "^4.16.4",
     "node-nocache": "^1.0.4"
   },
   "engines": {
@@ -18,6 +18,8 @@
   },
   "keywords": [
     "power-ups",
+    "github",
+    "Board Chatter",
     "trello",
     "glitch"
   ],
