@@ -82,116 +82,11 @@ var WHITE_ICON = 'https://cdn.glitch.com/8ceca49b-97de-410c-808e-925a5b513af5%2F
 
 
 var boardButtonCallback = function(t){
-  return t.popup({
-    title: 'Popup List Example',
-    items: [
-      {
-        text: 'Open Modal',
-        callback: function(t){
-          return t.modal({
-            url: './modal.html', // The URL to load for the iframe
-            args: { text: 'Hello' }, // Optional args to access later with t.arg('text') on './modal.html'
-            accentColor: '#F2D600', // Optional color for the modal header
-            height: 500, // Initial height for iframe; not used if fullscreen is true
-            fullscreen: true, // Whether the modal should stretch to take up the whole screen
-            callback: () => console.log('Goodbye.'), // optional function called if user closes modal (via `X` or escape)
-            title: 'Hello, Modal!', // Optional title for modal header
-            // You can add up to 3 action buttons on the modal header - max 1 on the right side.
-            actions: [{
-              icon: COMMENT_ICON,
-              url: 'https://google.com', // Opens the URL passed to it.
-              alt: 'Leftmost',
-              position: 'left',
-            }, {
-              icon: COMMENT_ICON,
-              callback: (tr) => tr.popup({ // Callback to be called when user clicks the action button.
-                title: 'Settings',
-                url: 'settings.html',
-                height: 164,
-              }),
-              alt: 'Second from left',
-              position: 'left',
-            }, {
-              icon: COMMENT_ICON,
-              callback: () => console.log('🏎'),
-              alt: 'Right side',
-              position: 'right',
-            }],
-          })
-        }
-      },
-      {
-        text: 'Open Board Bar',
-        callback: function(t){
-          return t.boardBar({
-            url: './board-bar.html',
-            height: 200
-          })
-          .then(function(){
-            return t.closePopup();
-          });
-        }
-      }
-    ]
-  });
-};
-
-var cardButtonCallback = function(t){
-  // Trello Power-Up Popups are actually pretty powerful
-  // Searching is a pretty common use case, so why reinvent the wheel
-  var items = ['acad', 'arch', 'badl', 'crla', 'grca', 'yell', 'yose'].map(function(parkCode){
-    var urlForCode = 'http://www.nps.gov/' + parkCode + '/';
-    var nameForCode = '🏞 ' + parkCode.toUpperCase();
-    return {
-      text: nameForCode,
-      url: urlForCode,
-      callback: function(t){
-        // In this case we want to attach that park to the card as an attachment
-        // but first let's ensure that the user can write on this model
-        if (t.memberCanWriteToModel('card')){
-          return t.attach({ url: urlForCode, name: nameForCode })
-          .then(function(){
-            // once that has completed we should tidy up and close the popup
-            return t.closePopup();
-          });
-        } else {
-          console.log("Oh no! You don't have permission to add attachments to this card.")
-          return t.closePopup(); // We're just going to close the popup for now.
-        };
-      }
-    };
-  });
-
-  // we could provide a standard iframe popup, but in this case we
-  // will let Trello do the heavy lifting
-  return t.popup({
-    title: 'Popup Search Example',
-    items: items, // Trello will search client-side based on the text property of the items
-    search: {
-      count: 5, // How many items to display at a time
-      placeholder: 'Search National Parks',
-      empty: 'No parks found'
-    }
-  });
-
-  // in the above case we let Trello do the searching client side
-  // but what if we don't have all the information up front?
-  // no worries, instead of giving Trello an array of `items` you can give it a function instead
-  /*
-  return t.popup({
-    title: 'Popup Async Search',
-    items: function(t, options) {
-      // use options.search which is the search text entered so far
-      // and return a Promise that resolves to an array of items
-      // similar to the items you provided in the client side version above
-    },
-    search: {
-      placeholder: 'Start typing your search',
-      empty: 'Huh, nothing there',
-      searching: 'Scouring the internet...'
-    }
-  });
-  */
+  return t.modal({
+    url: './modal.html', // The URL to load for the iframe
+    fullscreen: true, // Whether the modal should stretch to take up the whole screen
+    title: 'Chat', // Optional title for modal header
+  })
 };
 
 // We need to call initialize to get all of our capability handles set up and registered with Trello
@@ -200,41 +95,6 @@ TrelloPowerUp.initialize({
   // If you need to make an asynchronous request or action before you can reply to Trello
   // you can return a Promise (bluebird promises are included at TrelloPowerUp.Promise)
   // The Promise should resolve to the object type that is expected to be returned
-  'attachment-sections': function(t, options){
-    // options.entries is a list of the attachments for this card
-    // you can look through them and 'claim' any that you want to
-    // include in your section.
-
-    // we will just claim urls for Yellowstone
-    var claimed = options.entries.filter(function(attachment){
-      return attachment.url.indexOf('www.nps.gov/yell/') > -1;
-    });
-
-    // you can have more than one attachment section on a card
-    // you can group items together into one section, have a section
-    // per attachment, or anything in between.
-    if(claimed && claimed.length > 0){
-      // if the title for your section requires a network call or other
-      // potentially length operation you can provide a function for the title
-      // that returns the section title. If you do so, provide a unique id for
-      // your section
-      return [{
-        id: 'Yellowstone', // optional if you aren't using a function for the title
-        claimed: claimed,
-        icon: GLITCH_ICON,
-        title: 'Example Attachment Section: Yellowstone',
-        content: {
-          type: 'iframe',
-          // You'll need to sign the URL to ensure that the iframe can continue to
-          // communicate with Trello.
-          url: t.signUrl('./section.html', { arg: 'you can pass your section args here' }),
-          height: 230
-        }
-      }];
-    } else {
-      return [];
-    }
-  },
   'board-buttons': function(t, options){
     return [{
       // we can either provide a button that has a callback function
